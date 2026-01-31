@@ -1,25 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>NUBG - Games</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raindrop | NUBG</title>
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 40px; }
-        .game-card { background: #1e293b; padding: 15px; border-radius: 12px; transition: 0.3s; cursor: pointer; }
-        .game-card:hover { transform: scale(1.05); background: #334155; }
-        img { width: 100px; height: 100px; border-radius: 8px; }
-        a { text-decoration: none; color: white; font-weight: bold; }
+        :root {
+            --bg-color: #0b0e14;
+            --sidebar-color: #161b22;
+            --accent-color: #58a6ff;
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: var(--sidebar-color);
+            height: 100%;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #30363d;
+        }
+
+        #sidebar.hidden {
+            margin-left: -250px;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 18px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .nav-item:hover {
+            background-color: #21262d;
+            color: var(--accent-color);
+        }
+
+        /* Main Content Area */
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 10px 20px;
+            background: #161b22;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        iframe {
+            flex-grow: 1;
+            border: none;
+            background: url('https://images.unsplash.com/photo-1534274988757-a28bf1f55476?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); /* Raindrop Background */
+            background-size: cover;
+        }
     </style>
 </head>
 <body>
-    <h1>NUBG</h1>
-    <div class="grid">
-        <a href="games/tetris.html">
-            <div class="game-card">
-                <img src="https://via.placeholder.com/100" alt="Tetris">
-                <p>Tetris</p>
-            </div>
-        </a>
+
+    <div id="sidebar">
+        <h2 style="padding: 20px;">Raindrop</h2>
+        <a href="#" class="nav-item" onclick="loadPage('home.html')">Home</a>
+        <a href="#" class="nav-item" onclick="loadPage('https://example-game-url.com')">Tetris</a>
+        <a href="#" class="nav-item" onclick="loadPage('https://example-slope-url.com')">Slope</a>
     </div>
+
+    <div id="main-content">
+        <header>
+            <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+            <h1 style="font-size: 20px; margin: 0;">NUBG Project</h1>
+        </header>
+        
+        <iframe id="content-frame" src="about:blank"></iframe>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+        }
+
+        function loadPage(url) {
+            document.getElementById('content-frame').src = url;
+        }
+    </script>
 </body>
 </html>
