@@ -1269,3 +1269,41 @@
 </script>
 </body>
 </html>
+<div class="search-container">
+    <input type="text" id="uv-address" placeholder="Search Google or type a URL...">
+    <button id="uv-submit">Go</button>
+</div>
+
+<iframe id="uv-iframe" style="width:100%; height:80vh; border:none; margin-top:20px;"></iframe>
+
+<script src="uv/uv.bundle.js" defer></script>
+<script src="uv/uv.config.js" defer></script>
+
+<script>
+    window.addEventListener('load', async () => {
+        // Register the Service Worker (Critical for proxying)
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('./uv/uv.sw.js', {
+                    scope: __uv$config.prefix
+                });
+            } catch (err) {
+                console.error('SW registration failed:', err);
+            }
+        }
+    });
+
+    const input = document.getElementById('uv-address');
+    const button = document.getElementById('uv-submit');
+    const iframe = document.getElementById('uv-iframe');
+
+    button.onclick = () => {
+        let url = input.value.trim();
+        // If it's not a URL, search Google
+        if (!url.includes('.')) url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
+        else if (!(url.startsWith('https://') || url.startsWith('http://'))) url = 'https://' + url;
+
+        // Redirect the iframe to the proxied URL
+        iframe.src = __uv$config.prefix + __uv$config.encodeUrl(url);
+    };
+</script>
